@@ -52,7 +52,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    new JoystickButton(controller, 1).onTrue(null)
+    new JoystickButton(controller, 1).onTrue(null);
   }
 
   /**
