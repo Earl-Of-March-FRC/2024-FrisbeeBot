@@ -4,8 +4,10 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -36,6 +38,10 @@ public class Robot extends TimedRobot {
   DifferentialDrive drive = new DifferentialDrive(rightFrontMotor, leftFrontMotor);
 
   XboxController controller = new XboxController(0);
+
+  SlewRateLimiter leftLimit = new SlewRateLimiter(0.7);
+  SlewRateLimiter rightLimit = new SlewRateLimiter(0.7);
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -47,6 +53,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     left.setInverted(true);
+
+    leftFrontMotor.setNeutralMode(NeutralMode.Brake);
+    leftBackMotor.setNeutralMode(NeutralMode.Brake);
+    rightFrontMotor.setNeutralMode(NeutralMode.Brake);
+    rightBackMotor.setNeutralMode(NeutralMode.Brake);
   }
 
 
@@ -98,7 +109,18 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    drive.tankDrive(controller.getLeftY(), controller.getRightY());
+
+    double left = controller.getLeftY();
+    double right = controller.getRightY();
+
+    if(Math.abs(left) > 0.3){
+      left = leftLimit.calculate(left);
+    }
+    if(Math.abs(right) > 0.3){
+      right = rightLimit.calculate(right);
+    }
+
+    drive.tankDrive(left, right);
   }
 
   /** This function is called once when the robot is disabled. */
