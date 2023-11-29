@@ -39,8 +39,8 @@ public class Robot extends TimedRobot {
 
   XboxController controller = new XboxController(0);
 
-  SlewRateLimiter leftLimit = new SlewRateLimiter(0.7);
-  SlewRateLimiter rightLimit = new SlewRateLimiter(0.7);
+  SlewRateLimiter leftLimit = new SlewRateLimiter(0.95);
+  SlewRateLimiter rightLimit = new SlewRateLimiter(0.95);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -114,10 +114,10 @@ public class Robot extends TimedRobot {
     double right = controller.getRightY();
 
     if(Math.abs(left) > 0.3){
-      left = leftLimit.calculate(left);
+      left = leftLimit.calculate((Math.pow(2, Math.abs(left))-1) * (left >= 0 ? 1 : -1));
     }
     if(Math.abs(right) > 0.3){
-      right = rightLimit.calculate(right);
+      right = rightLimit.calculate((Math.pow(2, Math.abs(right))-1) * (right >= 0 ? 1 : -1));
     }
 
     drive.tankDrive(left, right);
