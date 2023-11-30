@@ -114,13 +114,13 @@ public class Robot extends TimedRobot {
     double right = controller.getRightY();
 
     if(Math.abs(left) > 0.3){
-      left = leftLimit.calculate(left);
+      left = -leftLimit.calculate(left);
     }
     if(Math.abs(right) > 0.3){
       right = rightLimit.calculate(right);
     }
 
-    drive.tankDrive(left, right);
+    drive.tankDrive(right, left);
   }
 
   /** This function is called once when the robot is disabled. */
