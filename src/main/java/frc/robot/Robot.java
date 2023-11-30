@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
   MotorControllerGroup left = new MotorControllerGroup(leftFrontMotor, leftBackMotor);
   MotorControllerGroup right = new MotorControllerGroup(rightFrontMotor, rightBackMotor);
 
-  DifferentialDrive drive = new DifferentialDrive(rightFrontMotor, leftFrontMotor);
+  DifferentialDrive drive = new DifferentialDrive(right, left);
 
   XboxController controller = new XboxController(0);
 
@@ -113,9 +113,9 @@ public class Robot extends TimedRobot {
     double right = controller.getRightY();
 
     if(Math.abs(left) > 0.3){
-      left = (Math.pow(2, Math.abs(left))-1) * (left >= 0 ? -1 : 1);
+      left = (Math.pow(2, Math.abs(left))-1) * (left >= 0 ? 1 : -1);
     } else if (Math.abs(left) > 0.1) {
-      left = 0.1 * (left >= 0 ? -1 : 1);
+      left = 0.1 * (left >= 0 ? 1 : -1);
     }
     if(Math.abs(right) > 0.3){
       right = (Math.pow(2, Math.abs(right))-1) * (right >= 0 ? 1 : -1);
