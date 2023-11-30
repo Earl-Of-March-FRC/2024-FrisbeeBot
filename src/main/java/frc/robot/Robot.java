@@ -112,15 +112,15 @@ public class Robot extends TimedRobot {
     double left = controller.getLeftY();
     double right = controller.getRightY();
 
-    if(Math.abs(left) > 0.1){
+    if(Math.abs(left) > 0.3){
       left = (Math.pow(2, Math.abs(left))-1) * (left >= 0 ? 1 : -1);
-    } else {
-      left = (Math.pow(2, Math.abs(left)+0.1)-1) * (left >= 0 ? 1 : -1);
+    } else if (Math.abs(left) > 0.1) {
+      left = 0.1 * (left >= 0 ? 1 : -1);
     }
-    if(Math.abs(right) > 0.1){
+    if(Math.abs(right) > 0.3){
       right = (Math.pow(2, Math.abs(right))-1) * (right >= 0 ? 1 : -1);
-    } else {
-      right = (Math.pow(2, Math.abs(right)+0.1)-1) * (right >= 0 ? 1 : -1);
+    } else if (Math.abs(right) > 0.1) {
+      right = 0.1 * (right >= 0 ? 1 : -1);
     }
 
     drive.tankDrive(left, right);
