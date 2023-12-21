@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
   MotorControllerGroup left = new MotorControllerGroup(leftFrontMotor, leftBackMotor);
   MotorControllerGroup right = new MotorControllerGroup(rightFrontMotor, rightBackMotor);
 
-  DifferentialDrive drive = new DifferentialDrive(rightFrontMotor, leftFrontMotor);
+  DifferentialDrive drive = new DifferentialDrive(left, right);
 
   XboxController controller = new XboxController(0);
 
@@ -120,7 +120,8 @@ public class Robot extends TimedRobot {
       right = rightLimit.calculate(right);
     }
 
-    drive.tankDrive(right, left);
+    drive.tankDrive(left, right);
+
   }
 
   /** This function is called once when the robot is disabled. */
